@@ -4,7 +4,12 @@
         <div class="grid_4">
             <div class="gall_block">
                 <div class="maxheight">
-                    <a href="{{asset(env('THEME'))}}/images/bbig1.jpg" class="gall_item"><img src="{{asset(env('THEME'))}}/images/page2_img1.jpg" alt=""></a>
+                    {{--@if($item->alias == 'drinks')--}}
+                        {{--<a href="http://restaurant.loc/drinks" class="gall_item"><img src="{{asset(env('THEME'))}}/images/page2_img1.jpg" alt="" ></a>--}}
+                    {{--@else--}}
+                    {{--<a href="{{route( $item->alias.'Menu')}}" class="gall_item"><img src="{{asset(env('THEME'))}}/images/page2_img1.jpg" alt="" ></a>--}}
+                    {{--@endif--}}
+                    <a href="{{route('show', ['alias' => $item->alias])}}" class="gall_item"><img src="{{asset(env('THEME'))}}/images/page2_img1.jpg" alt="" ></a>
 
 
 
@@ -12,7 +17,7 @@
                         <div class="text1"><a href="#">{{$item->name}} </a></div>
                         Rehoncus. Aliquam nibh antegestas id ictum a, commodo. Praesenterto faucibus maleada faucibusnec laeet metus id laoreet
                         <br>
-                        <a href="#" class="btn">Перейти к {{$item->name}}</a></div>
+                        <a href="{{route('show', ['alias' => $item->alias])}}" class="btn">Перейти к {{$item->name}}</a></div>
                 </div>
             </div>
         </div>

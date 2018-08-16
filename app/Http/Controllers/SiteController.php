@@ -10,14 +10,23 @@ use Rest\Repositories\MenuRepository;
 
 class SiteController extends Controller
 {
-    //Свойство для хранения объекта класса portfolio репозиторий
-    protected $p_rep;
+    //Свойство для хранения объекта класса desserts репозиторий
+    protected $de_rep;
 
-    //Свойство для хранения объекта класса slider репозиторий
-    protected $s_rep;
+    //Свойство для хранения объекта класса drinks репозиторий
+    protected $dr_rep;
+
+    //Свойство для хранения объекта класса first_dishes репозиторий
+    protected $fd_rep;
+
+    //Свойство для хранения объекта класса breakfasts репозиторий
+    protected $br_rep;
 
     //Свойство для хранения объекта класса menus репозиторий
     protected $m_rep;
+
+    //Свойство для хранения заголвка страницы
+    protected $title;
 
     //Свойство для хранения имени шаблона для отображения инфомрации на конктретной странице
     protected $template;
@@ -25,14 +34,6 @@ class SiteController extends Controller
     //Массив передаваемых переменных в шаблон($template)
     protected $vars = array();
 
-    //Идентификатор наличия бокового меню(sitebar)
-    protected $bar = false;
-
-    //Данные бокового меню (правого):
-    protected $contentRightBar = false;
-
-    //Данные бокового меню (левого):
-    protected $contentLeftBar = false;
 
     public function __construct(MenuRepository $m_rep)
     {
@@ -42,14 +43,16 @@ class SiteController extends Controller
     //Метод формирования представления
     protected function renderOutput(){
 
-        //Получаем данные меню:
-        $menusItems = $this->getMenusItems();
+//        //Получаем данные меню:
+//        $menusItems = $this->getMenusItems();
+//
+//        //Сформируем переменную содержащую вид меню с переданными данными из таблицы и все это в виде строки.
+//        $menus = view(env('THEME').'.menus')->with('menusItems',$menusItems)->render();
+//
+//        //Передаем переменную  меню в массив переменных:
+//        $this->vars = array_add($this->vars, 'menus', $menus);
 
-        //Сформируем переменную содержащую вид меню с переданными данными из таблицы и все это в виде строки.
-        $menus = view(env('THEME').'.menus')->with('menusItems',$menusItems)->render();
-
-        //Передаем переменную  меню в массив переменных:
-        $this->vars = array_add($this->vars, 'menus', $menus);
+        $this->vars = array_add($this->vars, 'title', $this->title);
 
         //Помещаем в переменную содержание шаблона навигационного меню, преобразовывая содержимое в строку(render):
         $navigation = view(env('THEME').'.navigation')->render();

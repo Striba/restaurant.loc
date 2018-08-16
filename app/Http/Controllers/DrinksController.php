@@ -8,14 +8,15 @@ use Rest\Http\Requests;
 use Rest\Menu;
 use Rest\Repositories\DrinksRepository;
 
-class IndexController extends SiteController
+class DrinksController extends SiteController
 {
-
     public function __construct(DrinksRepository $dr_rep)
     {
         parent::__construct(new \Rest\Repositories\MenuRepository(new Menu()));
-        $this->template = env('THEME').'.index';
+
+        $this->template = env('THEME').'.drinks';
         $this->dr_rep = $dr_rep;
+
     }
 
     /**
@@ -25,17 +26,22 @@ class IndexController extends SiteController
      */
     public function index()
     {
-        //Получаем данные меню:
-        $menusItems = $this->getMenusItems();
+        //
+        //$singleMenu = 'privetyyy';
+        //dd($singleMenu);
+        $this->title = 'Меню напитков';
 
-        //Сформируем переменную содержащую вид меню с переданными данными из таблицы и все это в виде строки.
-        $menus = view(env('THEME').'.menus')->with('menusItems',$menusItems)->render();
+        $alias = 'drinks';
+        $menu_items = $this->m_rep->one($alias);
 
-        //Передаем переменную  меню в массив переменных:
-        $this->vars = array_add($this->vars, 'menus', $menus);
+        //$singleMenu = $this->dr_rep->one('napitok_1');
+        $singleMenu = $this->dr_rep->get();
 
-        $this->title = 'Наше меню';
+        $singleMenuItem = view(env('THEME').'.single_menu_item')->with(['singleMenu' => $singleMenu,
+            'alias' => $alias
+        ])->render();
 
+        $this->vars = array_add($this->vars, 'singleMenuItem', $singleMenuItem);
 
         return $this->renderOutput();
     }
@@ -67,10 +73,19 @@ class IndexController extends SiteController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show()
+    public function show($alias = false)
     {
-        //
+        $drinks = $this->dr_rep->one($alias);
 
+        $this->title = $drinks->name;
+
+        $single = view(env('THEME').'.eachDescription')->with('item', $drinks)->render();
+        $this->vars = array_add($this->vars, 'single', $single);
+
+        $this->template = env('THEME').'.detailedItem';
+
+
+        return $this->renderOutput();
     }
 
     /**

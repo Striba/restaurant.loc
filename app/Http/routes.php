@@ -11,17 +11,37 @@
 |
 */
 
+Route::resource('reserve', 'ReserveController');
 
+Route::resource('drinks', 'DrinksController',
+                                                        ['parameters' => ['drinks' => 'alias'],
 
-Route::resource('/', 'IndexController', ['only' => ['index'],
-                                                        'names' => [
-                                                            'index' => 'home'
-                                                        ]
 ]);
 
-Route::auth();
+Route::resource('first_dishes', 'FdishesController',
+                                                    ['parameters' => ['first_dishes' => 'alias'],
 
-Route::get('/home', 'HomeController@index');
+]);
+
+Route::resource('breakfasts', 'BreakfastsController',
+                                                    ['parameters' => ['breakfasts' => 'alias'],
+
+]);
+
+Route::resource('desserts', 'DessertsController',
+                                                    ['parameters' => ['desserts' => 'alias'],
+
+]);
+
+
+
+
+Route::resource('/', 'IndexController', [
+                                                              'names' => [
+                                                                     'index' => 'home'
+                                                                         ]
+]);
+
 
 //admin
 Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function (){
@@ -34,3 +54,6 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function (){
     Route::resource('/desserts', 'Admin\DessertsController');
 
 });
+
+Route::auth();
+

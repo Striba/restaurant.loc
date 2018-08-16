@@ -5,17 +5,14 @@ namespace Rest\Http\Controllers;
 use Illuminate\Http\Request;
 
 use Rest\Http\Requests;
-use Rest\Menu;
-use Rest\Repositories\DrinksRepository;
 
-class IndexController extends SiteController
+class ReserveController extends SiteController
 {
-
-    public function __construct(DrinksRepository $dr_rep)
+    public function __construct()
     {
-        parent::__construct(new \Rest\Repositories\MenuRepository(new Menu()));
-        $this->template = env('THEME').'.index';
-        $this->dr_rep = $dr_rep;
+
+        $this->template = env('THEME').'.reserveModal';
+
     }
 
     /**
@@ -23,21 +20,20 @@ class IndexController extends SiteController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //Получаем данные меню:
-        $menusItems = $this->getMenusItems();
+        //
+        $request->session()->put('reserve.1.amount', '50');
+        $request->session()->put('reserve.1.name', 'пробное блюдо');
+        $request->session()->put('reserve.1.price', '350');
+        $request->session()->put('reserve.sum', '350');
 
-        //Сформируем переменную содержащую вид меню с переданными данными из таблицы и все это в виде строки.
-        $menus = view(env('THEME').'.menus')->with('menusItems',$menusItems)->render();
-
-        //Передаем переменную  меню в массив переменных:
-        $this->vars = array_add($this->vars, 'menus', $menus);
-
-        $this->title = 'Наше меню';
+        $data = session('reserve');
 
 
-        return $this->renderOutput();
+        return view(env('THEME').'.reserveModal')->with('data', $data);
+
+
     }
 
     /**
@@ -67,10 +63,9 @@ class IndexController extends SiteController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show()
+    public function show($id)
     {
         //
-
     }
 
     /**

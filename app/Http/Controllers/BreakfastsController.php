@@ -6,16 +6,17 @@ use Illuminate\Http\Request;
 
 use Rest\Http\Requests;
 use Rest\Menu;
-use Rest\Repositories\DrinksRepository;
+use Rest\Repositories\BreakfastsRepository;
 
-class IndexController extends SiteController
+class BreakfastsController extends SiteController
 {
-
-    public function __construct(DrinksRepository $dr_rep)
+    public function __construct(BreakfastsRepository $br_rep)
     {
         parent::__construct(new \Rest\Repositories\MenuRepository(new Menu()));
-        $this->template = env('THEME').'.index';
-        $this->dr_rep = $dr_rep;
+
+        $this->template = env('THEME').'.breakfasts';
+        $this->br_rep = $br_rep;
+
     }
 
     /**
@@ -25,17 +26,19 @@ class IndexController extends SiteController
      */
     public function index()
     {
-        //Получаем данные меню:
-        $menusItems = $this->getMenusItems();
+        //
 
-        //Сформируем переменную содержащую вид меню с переданными данными из таблицы и все это в виде строки.
-        $menus = view(env('THEME').'.menus')->with('menusItems',$menusItems)->render();
+        $this->title = 'Меню завтраков';
 
-        //Передаем переменную  меню в массив переменных:
-        $this->vars = array_add($this->vars, 'menus', $menus);
+        $alias = 'breakfasts';
 
-        $this->title = 'Наше меню';
+        $singleMenu = $this->br_rep->get();
 
+        $singleMenuItem = view(env('THEME').'.single_menu_item')->with(['singleMenu' => $singleMenu,
+            'alias' => $alias
+        ])->render();
+
+        $this->vars = array_add($this->vars, 'singleMenuItem', $singleMenuItem);
 
         return $this->renderOutput();
     }
@@ -67,10 +70,19 @@ class IndexController extends SiteController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show()
+    public function show($alias = false)
     {
-        //
+        $breakfasts = $this->br_rep->one($alias);
 
+        $this->title = $breakfasts->name;
+
+        $single = view(env('THEME').'.eachDescription')->with('item', $breakfasts)->render();
+        $this->vars = array_add($this->vars, 'single', $single);
+
+        $this->template = env('THEME').'.detailedItem';
+
+
+        return $this->renderOutput();
     }
 
     /**
