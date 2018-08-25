@@ -980,3 +980,7 @@ header h1 a img {
         width: auto;
     }
 }
+
+.del-item {
+    cursor: pointer;
+}

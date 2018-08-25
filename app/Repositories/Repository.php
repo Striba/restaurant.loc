@@ -7,10 +7,10 @@ abstract class Repository
 {
     protected $model = false;
 
-    public function get()
+    public function get($select = '*')
     {
         //Выбираем все поля из БД:
-        $builder = $this->model->select('*');
+        $builder = $this->model->select($select);
 
         return $this->check($builder->get());
     }

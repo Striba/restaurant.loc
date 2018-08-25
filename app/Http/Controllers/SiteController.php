@@ -10,17 +10,20 @@ use Rest\Repositories\MenuRepository;
 
 class SiteController extends Controller
 {
-    //Свойство для хранения объекта класса desserts репозиторий
+    //Свойство для хранения объекта класса dessert репозиторий
     protected $de_rep;
 
-    //Свойство для хранения объекта класса drinks репозиторий
+    //Свойство для хранения объекта класса drink репозиторий
     protected $dr_rep;
 
-    //Свойство для хранения объекта класса first_dishes репозиторий
+    //Свойство для хранения объекта класса Fdish репозиторий
     protected $fd_rep;
 
-    //Свойство для хранения объекта класса breakfasts репозиторий
+    //Свойство для хранения объекта класса Breakfast репозиторий
     protected $br_rep;
+
+    //Свойство для хранения объекта класса Reserve репозиторий
+    protected $res_rep;
 
     //Свойство для хранения объекта класса menus репозиторий
     protected $m_rep;
@@ -43,14 +46,6 @@ class SiteController extends Controller
     //Метод формирования представления
     protected function renderOutput(){
 
-//        //Получаем данные меню:
-//        $menusItems = $this->getMenusItems();
-//
-//        //Сформируем переменную содержащую вид меню с переданными данными из таблицы и все это в виде строки.
-//        $menus = view(env('THEME').'.menus')->with('menusItems',$menusItems)->render();
-//
-//        //Передаем переменную  меню в массив переменных:
-//        $this->vars = array_add($this->vars, 'menus', $menus);
 
         $this->vars = array_add($this->vars, 'title', $this->title);
 

@@ -10,6 +10,15 @@
 | and give it the controller to call when that URI is requested.
 |
 */
+Route::group(['prefix' => 'reserve', 'middleware' => 'auth'], function (){
+
+    Route::get('/add/{id}', [ 'uses' => 'ReserveController@add', 'as' => 'reserveAdd']);
+    Route::get('/clear', [ 'uses' => 'ReserveController@clear', 'as' => 'reserveClear']);
+    Route::get('/delete/{id?}', [ 'uses' => 'ReserveController@delete', 'as' => 'reserveDel']);
+    Route::post('/checkout', [ 'uses' => 'ReserveController@checkout', 'as' => 'reserveCheck' ]);
+    Route::get('/order', [ 'uses' => 'ReserveController@order', 'as' => 'reserveOrder']);
+
+});
 
 Route::resource('reserve', 'ReserveController');
 

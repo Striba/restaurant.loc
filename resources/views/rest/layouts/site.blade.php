@@ -4,34 +4,38 @@
     <title>{{$title or 'Rest'}}</title>
     <meta charset="utf-8">
     <meta name = "format-detection" content = "telephone=no" />
-    <link rel="icon" href="{{asset(env('THEME'))}}/images/favicon.ico">
-    <link rel="shortcut icon" href="{{asset(env('THEME'))}}/images/favicon.ico" />
+    {{--<link rel="icon" href="{{asset(env('THEME'))}}/images/favicon.ico">--}}
+    <link rel="shortcut icon" href="{{asset(env('THEME'))}}/images/star.png" type="image/png">
+    {{--<link rel="shortcut icon" href="{{asset(env('THEME'))}}/images/favicon.ico" />--}}
     <link href="{{asset(env('THEME'))}}/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
 
-    <link rel="stylesheet" href="{{asset(env('THEME'))}}/css/stuck.css">
-    <link rel="stylesheet" href="{{asset(env('THEME'))}}/css/style.css">
-    <link rel="stylesheet" href="{{asset(env('THEME'))}}/css/touchTouch.css">
-    <script src="{{asset(env('THEME'))}}/js/jquery.js"></script>
-    <script src="{{asset(env('THEME'))}}/js/jquery-migrate-1.1.1.js"></script>
-    <script src="{{asset(env('THEME'))}}/js/script.js"></script>
-    <script src="{{asset(env('THEME'))}}/js/superfish.js"></script>
-    <script src="{{asset(env('THEME'))}}/js/jquery.equalheights.js"></script>
-    <script src="{{asset(env('THEME'))}}/js/jquery.mobilemenu.js"></script>
-    <script src="{{asset(env('THEME'))}}/js/jquery.easing.1.3.js"></script>
-    <script src="{{asset(env('THEME'))}}/js/tmStickUp.js"></script>
-    <script src="{{asset(env('THEME'))}}/js/jquery.ui.totop.js"></script>
-    <script src="{{asset(env('THEME'))}}/js/touchTouch.jquery.js"></script>
-    <script src="{{asset(env('THEME'))}}/js/myscript.js"></script>
 
-    <script>
-        $(document).ready(function(){
+    <link rel="stylesheet" href="{{asset(env('THEME'))}}/css/stuck.css" />
+    <link rel="stylesheet" href="{{asset(env('THEME'))}}/css/style.css" />
+    <link rel="stylesheet" href="{{asset(env('THEME'))}}/css/touchTouch.css" />
+    {{--<script src="{{asset(env('THEME'))}}/js/jquery.js"></script>--}}
+    {{--<script src="{{asset(env('THEME'))}}/js/jquery-migrate-1.1.1.js"></script>--}}
+    {{--<script src="{{asset(env('THEME'))}}/js/script.js"></script>--}}
+    {{--<script src="{{asset(env('THEME'))}}/js/superfish.js"></script>--}}
+    {{--<script src="{{asset(env('THEME'))}}/js/jquery.equalheights.js"></script>--}}
+    {{--<script src="{{asset(env('THEME'))}}/js/jquery.mobilemenu.js"></script>--}}
+    {{--<script src="{{asset(env('THEME'))}}/js/jquery.easing.1.3.js"></script>--}}
+    {{--<script src="{{asset(env('THEME'))}}/js/tmStickUp.js"></script>--}}
+    {{--<script src="{{asset(env('THEME'))}}/js/jquery.ui.totop.js"></script>--}}
+    {{--<script src="{{asset(env('THEME'))}}/js/touchTouch.jquery.js"></script>--}}
+    {{--<script src="{{asset(env('THEME'))}}/js/myscript.js"></script>--}}
 
-            $().UItoTop({ easingType: 'easeOutQuart' });
-            $('#stuck_container').tmStickUp({});
-            $('.gallery .gall_item').touchTouch();
+    {{--<script>--}}
+        {{--$(document).ready(function(){--}}
 
-        });
-    </script>
+            {{--$().UItoTop({ easingType: 'easeOutQuart' });--}}
+            {{--$('#stuck_container').tmStickUp({});--}}
+            {{--$('.gallery .gall_item').touchTouch();--}}
+
+        {{--});--}}
+    {{--</script>--}}
+
+
     <!--[if lt IE 9]>
     <div style=' clear: both; text-align:center; position: relative;'>
         <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
@@ -130,8 +134,9 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Продолжить заказ</button>
-                <a href="reserve/view" type="button" class="btn btn-primary">Оформить заказ</a>
-                <button type="button" class="btn btn-danger" onclick="clearReserve()">Очистить заказ</button>
+                <a href="{{ route('reserveOrder') }}" type="button" class="btn btn-primary">Оформить заказ</a>
+                <button type="button" class="btn btn-danger" ><a id="reserveClear" href="{{route( 'reserveClear')}}" onclick="clearReserve(); return false;">Очистить заказ</a></button>
+
             </div>
         </div>
     </div>
@@ -140,6 +145,8 @@
 
 <script src="{{asset(env('THEME'))}}/js/jquery-1.11.0.min.js"></script>
 <script src="{{asset(env('THEME'))}}/js/bootstrap.min.js"></script>
+
+<script src="{{asset(env('THEME'))}}/js/myscript.js"></script>
 
 </body>
 </html>
