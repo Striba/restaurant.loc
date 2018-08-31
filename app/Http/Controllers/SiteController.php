@@ -10,6 +10,9 @@ use Rest\Repositories\MenuRepository;
 
 class SiteController extends Controller
 {
+    //Свойство для хранения объекта класса dishes репозиторий
+    protected $di_rep;
+
     //Свойство для хранения объекта класса dessert репозиторий
     protected $de_rep;
 

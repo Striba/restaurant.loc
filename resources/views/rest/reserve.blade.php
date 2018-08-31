@@ -52,7 +52,8 @@
                         </table>
                     </div>
                     <div class="col-md-6 account-left">
-                        <form method="post" action="{{ route('reserveCheck') }}" role="form" data-toggle="validator">
+                        <form method="post" action="{{ route('reserve.store') }}" role="form" data-toggle="validator">
+                            {{ csrf_field() }}
 
                             <div class="form-group">
                                 <label for="address">Note</label>

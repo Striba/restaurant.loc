@@ -6,16 +6,17 @@ use Illuminate\Http\Request;
 
 use Rest\Http\Requests;
 use Rest\Menu;
-use Rest\Repositories\DrinksRepository;
+//use Rest\Repositories\DrinksRepository;
+use Rest\Repositories\DishesRepository;
 
 class IndexController extends SiteController
 {
 
-    public function __construct(DrinksRepository $dr_rep)
+    public function __construct(DishesRepository $di_rep)
     {
         parent::__construct(new \Rest\Repositories\MenuRepository(new Menu()));
         $this->template = env('THEME').'.index';
-        $this->dr_rep = $dr_rep;
+        $this->di_rep = $di_rep;
     }
 
     /**
@@ -27,6 +28,7 @@ class IndexController extends SiteController
     {
         //Получаем данные меню:
         $menusItems = $this->getMenusItems();
+        //dd($menusItems);
 
         //Сформируем переменную содержащую вид меню с переданными данными из таблицы и все это в виде строки.
         $menus = view(env('THEME').'.menus')->with('menusItems',$menusItems)->render();
@@ -67,9 +69,42 @@ class IndexController extends SiteController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show()
+//    public function show($alias)
+//    {
+    public function show($id)
     {
+
         //
+        //echo 'indexController: '.$alias;
+        echo 'indexController: '.$id;
+        //dd($alias);
+        //dd($id);
+        $allDishes = $this->di_rep->get();
+        //dd($allDishes);
+        //$singleMenu = $this->di_rep->where('menu_id',$id);
+
+        //$menu_id
+        $alias = Menu::select('alias')->where('id', $id)->first();
+        $alias = $alias->alias;
+        //dd($alias);
+
+        $this->template = env('THEME').'.'.$alias;
+
+        $singleMenu = $this->di_rep->getById($id,'menu_id');
+        //dd($singleMenu);
+//        $select = '';
+//        $singleMenu = $this->di_rep->get();
+
+        $singleMenuItem = view(env('THEME').'.single_menu_item')->with(['singleMenu' => $singleMenu,
+            'alias' => $alias
+        ])->render();
+
+
+
+
+        $this->vars = array_add($this->vars, 'singleMenuItem', $singleMenuItem);
+
+        return $this->renderOutput();
 
     }
 

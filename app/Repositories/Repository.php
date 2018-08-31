@@ -24,13 +24,6 @@ abstract class Repository
             return false;
         }
 
-        //Получаем объект с преобразованными данными из JSON:
-        $result->transform(function ($item,$key){
-            if(is_string($item->img) && is_object(json_decode($item->img)) && (json_last_error() == JSON_ERROR_NONE)) {
-                $item->img = json_decode($item->img);
-            }
-            return $item;
-        });
 
         return $result;
     }
@@ -39,6 +32,14 @@ abstract class Repository
     {
 
         $result = $this->model->where('alias', $alias)->first();
+
+        return $result;
+    }
+
+    public function getById($id, $field_name)
+    {
+        //$result = $this->model->where($field_name, $id)->first();
+        $result = $this->model->where($field_name, $id)->get();
 
         return $result;
     }

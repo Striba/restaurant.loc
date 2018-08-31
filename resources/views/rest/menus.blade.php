@@ -17,7 +17,11 @@
                         <div class="text1"><a href="#">{{$item->name}} </a></div>
                         Rehoncus. Aliquam nibh antegestas id ictum a, commodo. Praesenterto faucibus maleada faucibusnec laeet metus id laoreet
                         <br>
-                        <a href="{{route('show', ['alias' => $item->alias])}}" class="btn">Перейти к {{$item->name}}</a></div>
+                        {{--<div class="text1"><a href="#">{{$item->title}} </a></div>--}}
+                        {{--Rehoncus. Aliquam nibh antegestas id ictum a, commodo. Praesenterto faucibus maleada faucibusnec laeet metus id laoreet--}}
+                        {{--<br>--}}
+                        {{--<a href="{{route('show', ['alias' => $item->alias])}}" class="btn">Перейти к {{$item->name}}</a></div>--}}
+                        <a href="{{route('show', ['id' => $item->id])}}" class="btn">Перейти к {{$item->name}}</a></div>
                 </div>
             </div>
         </div>

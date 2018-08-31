@@ -12,7 +12,7 @@ $('body').on('click', '.add-to-reserve-link', function (e) {
     //console.log(id, qty);
 
     var link = $('#productAdd').attr('href');
-     // console.log(link);
+      console.log(link);
 
     //Отправляем запрос на сервер:
     $.ajax({
