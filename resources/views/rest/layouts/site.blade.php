@@ -71,6 +71,7 @@
                         <nav>
                             <ul class="sf-menu">
                                 @if(Auth::check())
+                                    <li><a href="{{ route('adminIndex', ['id' => Auth::user()->id]) }}"> Добро пожаловать {{ Auth::user()->name }}</a></li>
                                     <li><a href="{{ route('reserve.index') }}" onclick="getReserve(); return false;">Карта заказов</a></li>
                                     <li><a href="logout">Выйти из кабинета</a></li>
                                 @else
@@ -78,8 +79,8 @@
                                 @endif
                                 <li><a href="/">home</a></li>
                                 <li class="current"><a href="#">menu</a></li>
-                                <li><a href="#">reservation</a></li>
-                                <li><a href="#">contacts</a></li>
+                                {{--<li><a href="#">reservation</a></li>--}}
+                                {{--<li><a href="#">contacts</a></li>--}}
                             </ul>
                         </nav>
                         <div class="clear"></div>
@@ -94,6 +95,29 @@
           Content
 ======================-->
 <section class="content gallery pad1"><div class="ic">More Website Templates @ TemplateMonster.com - July 30, 2014!</div>
+    @if (count($errors) > 0)
+        <div class="alert alert-danger" role="alert">
+
+            @foreach ($errors->all() as $error)
+                <p>{{ $error }}</p>
+            @endforeach
+
+        </div>
+    @endif
+
+    @if (session('status'))
+
+        <div class="alert alert-success" role="alert">
+            {{ session('status') }}
+        </div>
+    @endif
+
+    @if (session('error'))
+
+        <div class="alert alert-danger" role="alert">
+            {{ session('error') }}
+        </div>
+    @endif
     <div class="container">
         <div class="row">
             <!-- FOOD MENU start-->

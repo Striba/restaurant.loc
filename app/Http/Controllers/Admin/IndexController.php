@@ -16,8 +16,10 @@ class IndexController extends AdminController
        $this->template = env('THEME').'.admin.index';
     }
 
-    public function index()
+    public function index($id)
     {
+        //dd('Ваш айди: ' . $id);
+
         $this->title = 'Панель администратора';
 
         return $this->renderOutput();

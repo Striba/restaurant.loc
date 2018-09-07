@@ -11,11 +11,10 @@
 |
 */
 
-//Route::resource('{alias}', 'DishesController');
-Route::resource('dishes', 'DishesController',
-                                        ['parameters' =>
-                                            ['dishes' => 'alias']
-                                        ]);
+
+Route::get('dishes/{alias}', ['as' => 'dishes.index', 'uses' => 'DishesController@index']);
+
+Route::resource('dishes', 'DishesController', ['except' => ['index']]);
 
 Route::group(['prefix' => 'reserve', 'middleware' => 'auth'], function (){
 
@@ -28,64 +27,12 @@ Route::group(['prefix' => 'reserve', 'middleware' => 'auth'], function (){
 
 Route::resource('reserve', 'ReserveController');
 
-//Route::resource('drinks', 'DrinksController',
-//                                                        ['parameters' => ['drinks' => 'alias'],
-//
-//]);
-//
-//Route::resource('first_dishes', 'FdishesController',
-//                                                    ['parameters' => ['first_dishes' => 'alias'],
-//
-//]);
-//
-//Route::resource('breakfasts', 'BreakfastsController',
-//                                                    ['parameters' => ['breakfasts' => 'alias'],
-//
-//]);
-//
-//Route::resource('desserts', 'DessertsController',
-//                                                    ['parameters' => ['desserts' => 'alias'],
-//
-//]);
-
-Route::resource('/', 'IndexController', [
-    'names' => [
-        'index' => 'home'
-    ],
-                                                              'parameters' => ['' => 'id']
-
-]);
-
-//Route::resource('/', 'IndexController', [
-//    'names' => [
-//        'index' => 'home'
-//    ],
-//    'parameters' => ['' => 'id.alias']
-//
-//]);
-
-//Route::resource('{id?}.{alias?}/', 'IndexController', [
-//    'names' => [
-//        'index' => 'home'
-//    ],
-//    //'parameters' => ['' => 'id.alias']
-//
-//]);
-
-
-//Route::resource('/', 'IndexController', [
-//                                                              'names' => [
-//                                                                     'index' => 'home'
-//                                                                         ],
-//                                                              'parameters' => ['' => 'alias']
-//]);
-
 
 //admin
 Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function (){
 
     //admin
-    Route::get('/', ['uses' => 'Admin\IndexController@index',
+    Route::get('/{id}', ['uses' => 'Admin\IndexController@index',
                             'as' => 'adminIndex'
     ]);
 
@@ -94,4 +41,13 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function (){
 });
 
 Route::auth();
+
+
+Route::resource('/', 'IndexController', [
+    'names' => [
+        'index' => 'home'
+    ],
+    'parameters' => ['' => 'id']
+
+]);
 

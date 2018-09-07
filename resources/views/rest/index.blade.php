@@ -4,10 +4,3 @@
     {!! $menus !!}
 @endsection
 
-
-{{--START MAIN NAVIGATION--}}
-
-<!-- START MAIN NAVIGATION -->
-{{--@yield('navigation')--}}
-<!-- END MAIN NAVIGATION -->
-

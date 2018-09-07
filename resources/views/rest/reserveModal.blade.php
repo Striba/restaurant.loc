@@ -16,7 +16,8 @@
             @foreach($data as $id => $item)
                 @if($id != 'sum')
                     <tr>
-                         <td>{{$item['name']}}</td>
+                         {{--<td>{{$item['name']}}</td>--}}
+                        <td>{{$item['title']}}</td>
                          <td>{{$item['qty']}}</td>
                          <td>{{$item['amount']}}</td>
                          <td>{{$item['price']}}</td>

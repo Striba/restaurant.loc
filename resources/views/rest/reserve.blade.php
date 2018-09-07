@@ -30,7 +30,7 @@
                             @foreach($data as $id => $item)
 
                                 <tr>
-                                    <td>{{$item['name']}}</td>
+                                    <td>{{$item['title']}}</td>
                                     <td>{{$item['qty']}}</td>
                                     <td>{{$item['amount']}}</td>
                                     <td>{{$item['price']}}</td>

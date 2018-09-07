@@ -13,15 +13,6 @@ class SiteController extends Controller
     //Свойство для хранения объекта класса dishes репозиторий
     protected $di_rep;
 
-    //Свойство для хранения объекта класса dessert репозиторий
-    protected $de_rep;
-
-    //Свойство для хранения объекта класса drink репозиторий
-    protected $dr_rep;
-
-    //Свойство для хранения объекта класса Fdish репозиторий
-    protected $fd_rep;
-
     //Свойство для хранения объекта класса Breakfast репозиторий
     protected $br_rep;
 

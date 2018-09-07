@@ -8,17 +8,23 @@ use Rest\Http\Requests;
 use Rest\Menu;
 use Rest\Repositories\ReserveRepository;
 use Rest\Breakfast;
+use Rest\Repositories\DishesRepository;
 use Session;
 use DB;
+use Log;
+use Monolog\Logger;
+use Monolog\Handler\StreamHandler;
+
 
 class ReserveController extends SiteController
 {
-    public function __construct(ReserveRepository $res_rep)
+    public function __construct(ReserveRepository $res_rep, DishesRepository $di_rep)
     {
         parent::__construct(new \Rest\Repositories\MenuRepository(new Menu()));
 
         $this->template = env('THEME').'.reserveIndex';
         $this->res_rep = $res_rep;
+        $this->di_rep = $di_rep;
 
     }
 
@@ -41,6 +47,7 @@ class ReserveController extends SiteController
 
     public function add(Request $request, $id = null)
     {
+        //Session::forget('reserve');
         //айди блюда и колличество получаем из аджакс запроса:
         $id = $request->input('id');
         $qty = $request->input('qty');
@@ -50,8 +57,19 @@ class ReserveController extends SiteController
         //dd($qty);
         //dd($request);
         if ($id){
-            $dish = Breakfast::select('*')->where('id', ['?' => $id])->first();
+            $res = $this->di_rep->getById($id, 'id');
+
+            $dish = $res;
+            if (\Auth::check()){
+                $user_id = auth()->user()->id;
+                //dd('user_id is: '.$user_id);
+
+                $dish->user_id = $user_id;
+            }
+            $dish->dishes_id= $dish->id;
+
             //dd($dish);
+
             if (!$dish){
                 return false;
             }
@@ -114,16 +132,6 @@ class ReserveController extends SiteController
 
     }
 
-//    public function checkout(Request $request)
-//    {
-//
-//        //dd($request);
-//        $session = $request->session()->get('reserve');
-//        dd($session);
-//        //код сохранения заказа в БД
-//
-//
-//    }
 
     public function order(Request $request)
     {
@@ -164,64 +172,50 @@ class ReserveController extends SiteController
         //dd($request);
         $session = $request->session()->get('reserve');
         //dd($session);
-        //код сохранения заказа в БД
-
-//        $users = $request->user()->breackfasts()->get();
-//        dd($users);
 
 
-        //
-//        $db = DB::table('breakfasts')->get();
-//        foreach ($db as $item){
-//            echo 'Название блюда: '.$item->name.'<br>';
-//        }
-//        dd($db);
 
-
-        //$data = array();
         if(!empty($request->except('_token'))){
             echo 'Ваше сообщение: '.$request->input('note');
             //$data['note'] = $request->input('note');
             //$data['dishes'] = $request->session()->get('reserve');
             $data = $request->session()->get('reserve');
-//            $this->model->fill($data);
-//            dd($this->model);
+            $data_mod = [];
+            $i=0;
+            foreach ($data as $item){
+                $item['note'] = $request->input('note');
+                //dd($item);
+                $data_mod = array_add($data_mod, $i, $item);
+                $i++;
+                //dd($data_mod);
+            }
+            //dd($data_mod);
+
             //dd($session);
-            $result = $this->res_rep->addReserve($data);
+
+            $result = $this->res_rep->addReserve($data_mod);
+
+            if(is_array($result) && !empty($result['error'])){
+                return back()->with($result);
+            }
+
+            //>Логируем заказ:
+            $log = $data_mod;
+
+            $reserveLog = new Logger('reserve');
+            $reserveLog->pushHandler(new StreamHandler(storage_path('logs/reserve.log')), Logger::INFO);
+            $reserveLog->info('ReserveLog', $log);
+            //dd($log);
+            //<
+
+            Session::forget('reserve');
+
+            return redirect('/')->with($result);
+
         }
 
 
 
-//        if(is_array($result) && !empty($result['error'])){
-//            return back()->with($result);
-//        }
-
-//        return redirect('/admin')->with($result);
-
-//        //Сохранение заказа
-//        $data['user_id'] = isset($user_id) ? $user_id : $_SESSION['user']['id'];
-//        $data['note'] = !empty($_POST['note']) ? $_POST['note'] : '';
-//        $user_email = isset($_SESSION['user']['email']) ? $_SESSION['user']['email'] : $_POST['email'];
-//        $order_id = Order::saveOrder($data);
-
-
-//        $result = $this->a_rep->addArticle($request);
-//
-//        if(is_array($result) && !empty($result['error'])){
-//            return back()->with($result);
-//        }
-//
-//        return redirect('/admin')->with($result);
-
-        if(!empty($_POST)){
-            //Сохранение заказа
-            $data['user_id'] = isset($user_id) ? $user_id : $_SESSION['user']['id'];
-            $data['note'] = !empty($_POST['note']) ? $_POST['note'] : '';
-            $user_email = isset($_SESSION['user']['email']) ? $_SESSION['user']['email'] : $_POST['email'];
-            $order_id = Order::saveOrder($data);
-        }
-
-        return redirect('/');
     }
 
     /**

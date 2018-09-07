@@ -24,17 +24,18 @@ class DishesController extends SiteController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($alias)
+    public function index($alias = false)
     {
         //
-        $singleMenu = $this->di_rep->get();
-        dd($singleMenu);
 
-        $singleMenuItem = view(env('THEME').'.single_menu_item')->with(['singleMenu' => $singleMenu,
-            'alias' => $alias
-        ])->render();
+        $dish = $this->di_rep->one($alias);
+        $this->title = $dish->title;
 
-        $this->vars = array_add($this->vars, 'singleMenuItem', $singleMenuItem);
+        $single = view(env('THEME').'.eachDescription')->with('item', $dish)->render();
+        $this->vars = array_add($this->vars, 'single', $single);
+
+        $this->template = env('THEME').'.detailedItem';
+
 
         return $this->renderOutput();
 

@@ -24,7 +24,6 @@ abstract class Repository
             return false;
         }
 
-
         return $result;
     }
 
@@ -38,9 +37,10 @@ abstract class Repository
 
     public function getById($id, $field_name)
     {
-        //$result = $this->model->where($field_name, $id)->first();
-        $result = $this->model->where($field_name, $id)->get();
+        $result = $this->model->where($field_name, $id)->first();
 
         return $result;
     }
+
+
 }

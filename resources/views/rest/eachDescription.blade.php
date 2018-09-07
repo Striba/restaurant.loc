@@ -2,7 +2,7 @@
 <div class="row">
     <div class="grid_7">
         <div class="blog">
-            <div class="blog_title"><a href="#">{{ $item->name }} </a></div>
+            <div class="blog_title"><a href="#">{{ $item->title }} </a></div>
             <img src="{{asset(env('THEME'))}}/images/page4_img1.jpg" alt="">
             <p>Колличество порции: {{$item->amount}}</p>
             <p>Цена: {{ $item->price }}</p>

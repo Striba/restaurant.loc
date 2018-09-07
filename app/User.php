@@ -24,13 +24,15 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+    public function roles()
+    {
+        return $this->belongsToMany('Rest\Role', 'role_user');
+    }
+
     public function reserves()
     {
         return $this->hasMany('Rest\Reserve');
     }
 
-    public function breakfasts()
-    {
-        return $this->hasMany('Rest\Breakfast');
-    }
+
 }

@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 
 use Rest\Http\Requests;
 use Rest\Menu;
-//use Rest\Repositories\DrinksRepository;
 use Rest\Repositories\DishesRepository;
 
 class IndexController extends SiteController
@@ -74,33 +73,17 @@ class IndexController extends SiteController
     public function show($id)
     {
 
-        //
-        //echo 'indexController: '.$alias;
-        echo 'indexController: '.$id;
-        //dd($alias);
-        //dd($id);
-        $allDishes = $this->di_rep->get();
-        //dd($allDishes);
-        //$singleMenu = $this->di_rep->where('menu_id',$id);
-
-        //$menu_id
-        $alias = Menu::select('alias')->where('id', $id)->first();
-        $alias = $alias->alias;
-        //dd($alias);
+        $alias = $this->di_rep->getById($id, 'id')->menu->alias;
 
         $this->template = env('THEME').'.'.$alias;
 
-        $singleMenu = $this->di_rep->getById($id,'menu_id');
+        $singleMenu = $this->m_rep->getById($id, 'id')->dishes;
+
         //dd($singleMenu);
-//        $select = '';
-//        $singleMenu = $this->di_rep->get();
 
         $singleMenuItem = view(env('THEME').'.single_menu_item')->with(['singleMenu' => $singleMenu,
             'alias' => $alias
         ])->render();
-
-
-
 
         $this->vars = array_add($this->vars, 'singleMenuItem', $singleMenuItem);
 

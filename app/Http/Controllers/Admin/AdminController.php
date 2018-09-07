@@ -8,7 +8,7 @@ use Rest\Http\Requests;
 use Rest\Http\Controllers\Controller;
 use Auth;
 
-class AdminController extends \Rest\Http\Controllers\Controller
+class AdminController extends Controller
 {
     //
     protected $user;
