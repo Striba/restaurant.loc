@@ -1,21 +1,21 @@
 <?php
 
-namespace Rest\Http\Controllers;
+namespace Rest\Http\Controllers\admin;
 
 use Illuminate\Http\Request;
 
 use Rest\Http\Requests;
-use Rest\Menu;
-use Rest\Repositories\DishesRepository;
+use Rest\Http\Controllers\Controller;
+use Rest\Repositories\ReserveRepository;
+use PDF;
 
-class IndexController extends SiteController
+class ReserveController extends AdminController
 {
-
-    public function __construct(DishesRepository $di_rep)
+    public function __construct(ReserveRepository $res_rep)
     {
-        parent::__construct(new \Rest\Repositories\MenuRepository(new Menu()));
-        $this->template = env('THEME').'.index';
-        $this->di_rep = $di_rep;
+        parent::__construct();
+        $this->template = env('THEME').'.admin.index';
+        $this->res_rep = $res_rep;
     }
 
     /**
@@ -25,18 +25,15 @@ class IndexController extends SiteController
      */
     public function index()
     {
-        //Получаем данные меню:
-        $menusItems = $this->getMenusItems();
-        //dd($menusItems);
+        //
 
-        //Сформируем переменную содержащую вид меню с переданными данными из таблицы и все это в виде строки.
-        $menus = view(env('THEME').'.menus')->with('menusItems',$menusItems)->render();
+        $data = $this->res_rep->get();
 
-        //Передаем переменную  меню в массив переменных:
-        $this->vars = array_add($this->vars, 'menus', $menus);
+        $content = view(env('THEME').'.admin.reserves')->with('data', $data)->render();
 
-        $this->title = 'Наше меню';
+        $this->vars = array_add($this->vars, 'content', $content);
 
+        $this->title = 'Панель администратора';
 
         return $this->renderOutput();
     }
@@ -62,34 +59,34 @@ class IndexController extends SiteController
         //
     }
 
+    public function pdf($id)
+    {
+        $data = $this->res_rep->getById($id,'id');
+        $data = $data->toArray();
+        //dd($data);
+
+        $pdf = PDF::loadView(env('THEME').'.reserveExport', compact('data'));
+        return $pdf->download('reserve_number_.'.$data['id'].'_.pdf');
+    }
+
     /**
      * Display the specified resource.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-//    public function show($alias)
-//    {
     public function show($id)
     {
 
-        $alias = $this->di_rep->getById($id, 'id')->menu->alias;
+        //dd("Поступивший айди: ".$id);
+        $data = $this->res_rep->getById($id,'id');
+        //dd($data);
 
-        //$this->template = env('THEME').'.'.$alias;
-        $this->template = env('THEME').'.dishes';
+        $content = view(env('THEME').'.admin.oneReserve')->with('data', $data)->render();
 
-        $singleMenu = $this->m_rep->getById($id, 'id')->dishes;
-
-        //dd($singleMenu);
-
-        $singleMenuItem = view(env('THEME').'.single_menu_item')->with(['singleMenu' => $singleMenu,
-            'alias' => $alias
-        ])->render();
-
-        $this->vars = array_add($this->vars, 'singleMenuItem', $singleMenuItem);
+        $this->vars = array_add($this->vars, 'content', $content);
 
         return $this->renderOutput();
-
     }
 
     /**
@@ -124,5 +121,14 @@ class IndexController extends SiteController
     public function destroy($id)
     {
         //
+        //dd("Поступивший айди: ".$id);
+        $data = $this->res_rep->getById($id,'id');
+        $data->delete();
+
+        return redirect()->route('admin.reserve.index');
+
     }
+
+
+
 }

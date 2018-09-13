@@ -252,7 +252,7 @@
                     <li class="dropdown user user-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <img src="dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
-                            <span class="hidden-xs">USER NAME</span>
+                            <span class="hidden-xs">{{ Auth::user()->name }}</span>
                         </a>
                         <ul class="dropdown-menu">
                             <!-- User image -->
@@ -260,18 +260,18 @@
                                 <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
 
                                 <p>
-                                    USER NAME
+                                    {{ Auth::user() ->name }}
                                     <small>Member since Nov. 2012</small>
                                 </p>
                             </li>
 
                             <!-- Menu Footer-->
                             <li class="user-footer">
-                                <div class="pull-left">
-                                    <a href="#/user/edit?id=#" class="btn btn-default btn-flat">Profile</a>
-                                </div>
+                                {{--<div class="pull-left">--}}
+                                    {{--<a href="#/user/edit?id=#" class="btn btn-default btn-flat">Profile</a>--}}
+                                {{--</div>--}}
                                 <div class="pull-right">
-                                    <a href="/user/logout" class="btn btn-default btn-flat">Sign out</a>
+                                    <a href="{{ url('/logout') }}" class="btn btn-default btn-flat">Logout</a>
                                 </div>
                             </li>
                         </ul>
@@ -294,7 +294,7 @@
                     <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
                 </div>
                 <div class="pull-left info">
-                    <p>USER NAME</p>
+                    <p>{{ Auth::user() ->name }}</p>
                     <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
                 </div>
             </div>
@@ -313,37 +313,28 @@
             <ul class="sidebar-menu" data-widget="tree">
                 <li class="header">Меню</li>
                 <!-- Optionally, you can add icons to the links -->
-                <li><a href="#/"><i class="fa fa-home"></i> <span>Home</span></a></li>
-                <li><a href="#/drinks"><i class="fa fa-shopping-cart"></i> <span>Напитки</span></a></li>
-                <li class="treeview">
-                    <a href="#"><i class="fa fa-navicon"></i> <span>Десерты</span>
-                        <span class="pull-right-container">
-                <i class="fa fa-angle-left pull-right"></i>
-              </span>
-                    </a>
-                    <ul class="treeview-menu">
-                        <li><a href="#/dessert">Список десертов</a></li>
-                        <li><a href="#/dessert/add">Добавить десерт</a></li>
-                    </ul>
-                </li>
-                <li class="treeview">
-                    <a href="#"><i class="fa fa-cubes"></i> <span>Завтраки</span>
-                        <span class="pull-right-container">
-                <i class="fa fa-angle-left pull-right"></i>
-              </span>
-                    </a>
-                    <ul class="treeview-menu">
-                        <li><a href="#/breakfast">Список завтраков</a></li>
-                        <li><a href="#/breakfast/add">Добавить завтрак</a></li>
-                    </ul>
-                </li>
-                <li><a href="#/first_dishes"><i class="fa fa-database"></i> <span>первые блюда</span></a></li>
+                <li><a href="{{ route('adminIndex', ['id' => Auth::user()->id]) }}"><i class="fa fa-home"></i> <span>Home</span></a></li>
+                <li><a href="{{ route('admin.reserve.index') }}"><i class="fa fa-shopping-cart"></i> <span>Заказы</span></a></li>
                 </section>
         <!-- /.sidebar -->
     </aside>
 
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
+
+        @if (session('status'))
+
+            <div class="alert alert-success" role="alert">
+                {{ session('status') }}
+            </div>
+        @endif
+
+        @if (session('error'))
+
+            <div class="alert alert-danger" role="alert">
+                {{ session('error') }}
+            </div>
+        @endif
 
         @yield('content')
 
@@ -556,23 +547,34 @@
 
 
 {{--scrtpt--}}
+<span id="path" href="{{asset(env('THEME'))}}"></span>
+<span id="adminpath" href="{{asset(env('THEME'))}}/adminlte/"></span>
+
 
 
 
 
 <!-- jQuery 3 -->
 <script src="bower_components/jquery/dist/jquery.min.js"></script>
-<script src="/js/ajaxupload.js"></script>
+
+<script type="text/javascript">
+    var path = $('#path').attr('href');
+    var adminpath = $('#adminpath').attr('href');
+</script>
+
+<script src="dist/js/ajaxupload.js"></script>
 <!-- Bootstrap 3.3.7 -->
 <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 <script src="bower_components/select2/dist/js/select2.full.js"></script>
-<script src="/js/validator.js"></script>
+<script src="dist/js/validator.js"></script>
 <!-- AdminLTE App -->
 <script src="dist/js/adminlte.min.js"></script>
 <!-- CK Editor -->
 <script src="bower_components/ckeditor/ckeditor.js"></script>
 <script src="bower_components/ckeditor/adapters/jquery.js"></script>
 <script src="my.js"></script>
+
+
 
 
 </body>

@@ -12,6 +12,22 @@
 */
 
 
+//admin
+Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function (){
+
+    //admin
+    Route::resource('/reserve', 'Admin\ReserveController', [
+        'parameters' => ['/reserve' => 'id'],
+    ]);
+
+    Route::get('/reserve/pdf/{id}', ['as' => 'reservePdf', 'uses' => 'Admin\ReserveController@pdf']);
+
+    Route::get('/{id}', ['uses' => 'Admin\IndexController@index',
+        'as' => 'adminIndex'
+    ]);
+
+});
+
 Route::get('dishes/{alias}', ['as' => 'dishes.index', 'uses' => 'DishesController@index']);
 
 Route::resource('dishes', 'DishesController', ['except' => ['index']]);
@@ -27,21 +43,7 @@ Route::group(['prefix' => 'reserve', 'middleware' => 'auth'], function (){
 
 Route::resource('reserve', 'ReserveController');
 
-
-//admin
-Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function (){
-
-    //admin
-    Route::get('/{id}', ['uses' => 'Admin\IndexController@index',
-                            'as' => 'adminIndex'
-    ]);
-
-    Route::resource('/desserts', 'Admin\DessertsController');
-
-});
-
 Route::auth();
-
 
 Route::resource('/', 'IndexController', [
     'names' => [
