@@ -15,6 +15,10 @@
 //admin
 Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function (){
 
+    Route::get('/menu', ['uses' => 'Admin\MenuController@index', 'as' => 'adminMenu']);
+
+    Route::get('/menu/pdf', ['as' => 'menuPdf', 'uses' => 'Admin\MenuController@pdf']);
+
     //admin
     Route::resource('/reserve', 'Admin\ReserveController', [
         'parameters' => ['/reserve' => 'id'],

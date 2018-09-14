@@ -24,6 +24,22 @@
                 </div>
                 <a href="{{ route('admin.reserve.index') }}" class="small-box-footer">Все заказы <i class="fa fa-arrow-circle-right"></i></a>
             </div>
+            <div>
+                <a href="{{ route('adminMenu') }}" class="small-box-footer">Меню <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+
+            <div class="small-box bg-aqua">
+                <div class="inner">
+                    <h3>{{ $countMenus }}</h3>
+
+                    <p>Menu</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-bag"></i>
+                </div>
+                <a href="{{ route('adminMenu') }}" class="small-box-footer">Меню <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+
         </div>
         <!-- ./col -->
 

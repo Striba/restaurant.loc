@@ -315,6 +315,7 @@
                 <!-- Optionally, you can add icons to the links -->
                 <li><a href="{{ route('adminIndex', ['id' => Auth::user()->id]) }}"><i class="fa fa-home"></i> <span>Home</span></a></li>
                 <li><a href="{{ route('admin.reserve.index') }}"><i class="fa fa-shopping-cart"></i> <span>Заказы</span></a></li>
+                <li><a href="{{ route('adminMenu') }}"><i class="fa fa-cutlery"></i><span>Меню</span></a></li>
                 </section>
         <!-- /.sidebar -->
     </aside>

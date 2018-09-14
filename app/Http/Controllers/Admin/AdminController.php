@@ -14,6 +14,7 @@ class AdminController extends Controller
     protected $user;
     protected $di_rep;
     protected $res_rep;
+    protected $m_rep;
     protected $template;
     protected $content = false;
     protected $title;

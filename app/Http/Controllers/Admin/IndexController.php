@@ -7,26 +7,33 @@ use Illuminate\Http\Request;
 use Rest\Http\Requests;
 use Rest\Http\Controllers\Controller;
 use Rest\Repositories\ReserveRepository;
+use Rest\Repositories\MenuRepository;
 
 class IndexController extends AdminController
 {
     //
-    public function __construct(ReserveRepository $res_rep)
+    public function __construct(ReserveRepository $res_rep, MenuRepository $m_rep)
     {
        parent::__construct();
        $this->template = env('THEME').'.admin.index';
        $this->res_rep = $res_rep;
+       $this->m_rep = $m_rep;
     }
 
     public function index($id)
     {
         //dd('Ваш айди: ' . $id);
         $reserve = $this->res_rep->get();
-        //dd($reserve);
-        //dd(count($reserve));
+        $menu = $this->m_rep->get();
+        //dd($menu);
+        //dd(count($menu));
         $countReserves = count($reserve);
+        $countMenus = count($menu);
 
-        $content = view(env('THEME').'.admin.content')->with('countReserves', $countReserves)->render();
+        $content = view(env('THEME').'.admin.content')->with([
+            'countReserves' => $countReserves,
+            'countMenus' => $countMenus
+        ])->render();
 
         $this->vars = array_add($this->vars, 'content', $content);
 
