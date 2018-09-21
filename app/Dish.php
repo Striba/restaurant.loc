@@ -8,6 +8,7 @@ class Dish extends Model
 {
     //
     protected $table = 'dishes';
+    //protected $fillable = ['title', 'alias', 'price', 'amount'];
 
     public function menu()
     {
@@ -16,6 +17,9 @@ class Dish extends Model
 
     public function reserves()
     {
-        return $this->hasMany('Rest\Reserve');
+
+        return $this->belongsToMany('Rest\Reserve', 'reserves_dishes', 'dishes_id', 'reserves_id')->withPivot('title', 'alias', 'qty', 'amount', 'price');
     }
+
+
 }

@@ -30,22 +30,26 @@
                                 <td>Дата заказа</td>
                                 <td>{{ $data->created_at }}</td>
                             </tr>
+                            {{--<tr>--}}
+                                {{--<td>Кол-во порции в заказе</td>--}}
+                                {{--<td>{{ $data->amount }}</td>--}}
+                            {{--</tr>--}}
+                            {{--<tr>--}}
+                                {{--<td>Цена заказа</td>--}}
+                                {{--<td>{{ $data->price }}</td>--}}
+                            {{--</tr>--}}
                             <tr>
-                                <td>Кол-во порции в заказе</td>
-                                <td>{{ $data->amount }}</td>
-                            </tr>
-                            <tr>
-                                <td>Цена заказа</td>
-                                <td>{{ $data->price }}</td>
+                                <td>Имя заказчика</td>
+                                <td>{{ Auth()->user()->name }}</td>
                             </tr>
                             <tr>
                                 <td>ID заказчика</td>
                                 <td>{{ $data->user_id }}</td>
                             </tr>
-                            <tr>
-                                <td>Название блюда</td>
-                                <td>{{ $data->title }}</td>
-                            </tr>
+                            {{--<tr>--}}
+                                {{--<td>Название блюда</td>--}}
+                                {{--<td>{{ $data->title }}</td>--}}
+                            {{--</tr>--}}
                             <tr>
                                 <td>Комментарий</td>
                                 <td>{{ $data->note }}</td>
@@ -58,5 +62,44 @@
 
         </div>
     </div>
+
+    <h3>Детали заказа</h3>
+    <div class="box">
+        <div class="box-body">
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Наименование</th>
+                        <th>Кол-во</th>
+                        <th>Цена</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @if(isset($reserves_dishes))
+                   @foreach ($reserves_dishes as $dish)
+                    <tr>
+                        <td>{{ $dish->pivot->dishes_id }}</td>
+                        <td>{{ $dish->pivot->title }}</td>
+                        <td>{{ $dish->pivot->qty }}</td>
+                        <td>{{ $dish->pivot->price }}</td>
+                    </tr>
+                    @endforeach
+                        @else
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        @endif
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
 
 </section>

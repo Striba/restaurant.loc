@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Rest\Http\Requests;
 use Rest\Menu;
 use Rest\Repositories\DishesRepository;
+use Rest\User;
 
 class IndexController extends SiteController
 {
@@ -29,6 +30,20 @@ class IndexController extends SiteController
         $menusItems = $this->getMenusItems();
         //dd($menusItems);
 
+        if (Auth()->check()) {
+            //access:
+            $flag = false;
+
+            $user_id = Auth()->user()->id;
+            $user = User::find($user_id);
+            foreach ($user->roles as $role) {
+                $role = $role->name;
+                $flag = ($role == 'Admin') ? true : false;
+            }
+
+            $this->vars = array_add($this->vars, 'flag', $flag);
+        }
+
         //Сформируем переменную содержащую вид меню с переданными данными из таблицы и все это в виде строки.
         $menus = view(env('THEME').'.menus')->with('menusItems',$menusItems)->render();
 
@@ -36,7 +51,6 @@ class IndexController extends SiteController
         $this->vars = array_add($this->vars, 'menus', $menus);
 
         $this->title = 'Наше меню';
-
 
         return $this->renderOutput();
     }
@@ -74,6 +88,21 @@ class IndexController extends SiteController
     {
 
         $alias = $this->di_rep->getById($id, 'id')->menu->alias;
+
+        if (Auth()->check()) {
+            //access:
+            $flag = false;
+
+            $user_id = Auth()->user()->id;
+            $user = User::find($user_id);
+            foreach ($user->roles as $role) {
+                $role = $role->name;
+                $flag = ($role == 'Admin') ? true : false;
+            }
+
+            $this->vars = array_add($this->vars, 'flag', $flag);
+        }
+
 
         //$this->template = env('THEME').'.'.$alias;
         $this->template = env('THEME').'.dishes';

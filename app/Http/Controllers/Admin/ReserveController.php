@@ -8,6 +8,8 @@ use Rest\Http\Requests;
 use Rest\Http\Controllers\Controller;
 use Rest\Repositories\ReserveRepository;
 use PDF;
+use Rest\Reserve;
+use Rest\Dish;
 
 class ReserveController extends AdminController
 {
@@ -28,6 +30,7 @@ class ReserveController extends AdminController
         //
 
         $data = $this->res_rep->get();
+        //dd($data);
 
         $content = view(env('THEME').'.admin.reserves')->with('data', $data)->render();
 
@@ -62,8 +65,13 @@ class ReserveController extends AdminController
     public function pdf($id)
     {
         $data = $this->res_rep->getById($id,'id');
+
+        $reserves_dishes = $data->dishes()->where('reserves_id', $data->id)->get();
+        $reserves_dishes = $reserves_dishes->toArray();
         $data = $data->toArray();
         //dd($data);
+
+        $data = array_merge($data, ['dishes' => $reserves_dishes]);
 
         $pdf = PDF::loadView(env('THEME').'.reserveExport', compact('data'));
         return $pdf->download('reserve_number_.'.$data['id'].'_.pdf');
@@ -82,7 +90,14 @@ class ReserveController extends AdminController
         $data = $this->res_rep->getById($id,'id');
         //dd($data);
 
-        $content = view(env('THEME').'.admin.oneReserve')->with('data', $data)->render();
+        $reserves_dishes = $data->dishes()->where('reserves_id', $data->id)->get();
+
+
+        //dd($reserves_dishes);
+
+        $content = view(env('THEME').'.admin.oneReserve')->with(['data' => $data,
+                                                      'reserves_dishes' => $reserves_dishes
+            ])->render();
 
         $this->vars = array_add($this->vars, 'content', $content);
 
@@ -123,6 +138,17 @@ class ReserveController extends AdminController
         //
         //dd("Поступивший айди: ".$id);
         $data = $this->res_rep->getById($id,'id');
+
+//        foreach ($data->dishes as $dish){
+//
+//            $dish->reserves()->delete();
+//        }
+
+        //удаление пока не корректно работает
+        dd($data->dishes);
+
+        $data->dishes()->delete();
+
         $data->delete();
 
         return redirect()->route('admin.reserve.index');

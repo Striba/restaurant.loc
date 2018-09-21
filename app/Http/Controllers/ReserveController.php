@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Rest\Http\Requests;
 use Rest\Menu;
 use Rest\Repositories\ReserveRepository;
-use Rest\Breakfast;
+use Rest\User;
 use Rest\Repositories\DishesRepository;
 use Session;
 use DB;
@@ -137,6 +137,20 @@ class ReserveController extends SiteController
     {
         $this->title = 'Оформить заказ';
 
+        if (Auth()->check()) {
+            //access:
+            $flag = false;
+
+            $user_id = Auth()->user()->id;
+            $user = User::find($user_id);
+            foreach ($user->roles as $role) {
+                $role = $role->name;
+                $flag = ($role == 'Admin') ? true : false;
+            }
+
+            $this->vars = array_add($this->vars, 'flag', $flag);
+        }
+
         if(session('reserve')){
             $data = $request->session()->get('reserve');
         } else {
@@ -176,9 +190,8 @@ class ReserveController extends SiteController
 
 
         if(!empty($request->except('_token'))){
-            echo 'Ваше сообщение: '.$request->input('note');
-            //$data['note'] = $request->input('note');
-            //$data['dishes'] = $request->session()->get('reserve');
+            //echo 'Ваше сообщение: '.$request->input('note');
+
             $data = $request->session()->get('reserve');
             $data_mod = [];
             $i=0;

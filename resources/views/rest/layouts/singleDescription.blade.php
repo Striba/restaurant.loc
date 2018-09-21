@@ -78,15 +78,16 @@
                         <nav>
                             <ul class="sf-menu">
                                 @if(Auth::check())
+                                    <li><a href="{{ route('adminIndex', ['id' => Auth::user()->id]) }}"> Добро пожаловать {{ Auth::user()->name }}</a></li>
                                     <li><a href="{{ route('reserve.index') }}" onclick="getReserve(); return false;">Карта заказов</a></li>
-                                    <li><a href="logout">Выйти из кабинета</a></li>
+                                    <li><a href="{{url('/logout')}}">Выйти из кабинета</a></li>
                                 @else
-                                    <li><a href="login">Войти на кабинет</a></li>
+                                    <li><a href="{{ url('/login') }}">Войти на кабинет</a></li>
                                 @endif
                                 <li><a href="/">home</a></li>
                                 <li class="current"><a href="#">menu</a></li>
-                                <li><a href="#">reservation</a></li>
-                                <li><a href="#">contacts</a></li>
+                                {{--<li><a href="#">reservation</a></li>--}}
+                                {{--<li><a href="#">contacts</a></li>--}}
                             </ul>
                         </nav>
                         <div class="clear"></div>

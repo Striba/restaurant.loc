@@ -21,9 +21,6 @@
                             <tr>
                                 <th>ID заказа</th>
                                 <th>ID заказчика</th>
-                                <th>Название блюда</th>
-                                <th>Цена блюда</th>
-                                <th>Кол-во</th>
                                 <th>Дата создания</th>
                                 <th>Дата изменения</th>
                                 <th>Сообщение</th>
@@ -36,9 +33,6 @@
                                 <tr class="">
                                     <td>{{ $item->id }}</td>
                                     <td>{{ $item->user_id }}</td>
-                                    <td>{{ $item->title }}</td>
-                                    <td>{{ $item->price }}</td>
-                                    <td>{{ $item->qty }}</td>
                                     <td>{{ $item->created_at }}</td>
                                     <td>{{ $item->updated_at }}</td>
                                     <td>{{ $item->note }}</td>

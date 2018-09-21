@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Сен 13 2018 г., 20:33
+-- Время создания: Сен 21 2018 г., 13:10
 -- Версия сервера: 5.5.58
 -- Версия PHP: 5.6.32
 
@@ -124,7 +124,9 @@ INSERT INTO `migrations` (`migration`, `batch`) VALUES
 ('2018_09_06_163814_ChangeTableRoleUser', 16),
 ('2018_09_06_185957_DropAdmsTable', 17),
 ('2018_09_06_190323_DropMngsTable', 18),
-('2018_09_06_190620_DropRestTables', 19);
+('2018_09_06_190620_DropRestTables', 19),
+('2018_09_14_085817_Create_Reserves_Dishes_Table', 20),
+('2018_09_14_114454_Change_Reserves_Table_3', 21);
 
 -- --------------------------------------------------------
 
@@ -146,29 +148,63 @@ CREATE TABLE `password_resets` (
 
 CREATE TABLE `reserves` (
   `id` int(10) UNSIGNED NOT NULL,
-  `title` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `alias` varchar(150) COLLATE utf8_unicode_ci NOT NULL,
-  `price` double(8,2) NOT NULL,
-  `qty` int(11) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  `dishes_id` int(10) UNSIGNED DEFAULT NULL,
   `note` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `user_id` int(11) NOT NULL,
-  `amount` int(11) NOT NULL
+  `user_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Дамп данных таблицы `reserves`
 --
 
-INSERT INTO `reserves` (`id`, `title`, `alias`, `price`, `qty`, `created_at`, `updated_at`, `dishes_id`, `note`, `user_id`, `amount`) VALUES
-(44, 'первое блюдо 1', 'pervoye_bludo_1', 800.00, 2, '2018-09-13 14:30:03', '2018-09-13 14:30:03', 7, 'сообщение', 1, 230),
-(45, 'первое блюдо 2', 'pervoye_bludo_2', 350.00, 1, '2018-09-13 14:30:03', '2018-09-13 14:30:03', 8, 'сообщение', 1, 230),
-(46, 'напиток_2', 'napitok_2', 220.00, 4, '2018-09-13 14:30:03', '2018-09-13 14:30:03', 6, 'сообщение', 1, 200),
-(47, 'Дессерт_1', 'dessert_1', 200.00, 2, '2018-09-13 14:31:39', '2018-09-13 14:31:39', 3, 'ждем заказ', 7, 200),
-(48, 'Дессерт_2', 'dessert_2', 450.00, 3, '2018-09-13 14:31:39', '2018-09-13 14:31:39', 4, 'ждем заказ', 7, 145),
-(49, 'завтрак 2', 'zavtrak_2', 60.00, 2, '2018-09-13 14:31:39', '2018-09-13 14:31:39', 2, 'ждем заказ', 7, 130);
+INSERT INTO `reserves` (`id`, `created_at`, `updated_at`, `note`, `user_id`) VALUES
+(88, '2018-09-20 14:45:57', '2018-09-20 14:45:57', 'scoool', 1),
+(89, '2018-09-20 14:48:44', '2018-09-20 14:48:44', 'scoool', 1),
+(90, '2018-09-20 14:50:09', '2018-09-20 14:50:09', 'жду всех блюд', 1),
+(91, '2018-09-20 14:50:09', '2018-09-20 14:50:09', 'жду всех блюд', 1),
+(92, '2018-09-20 14:50:10', '2018-09-20 14:50:10', 'жду всех блюд', 1),
+(93, '2018-09-20 14:52:52', '2018-09-20 14:52:52', 'все блюда', 1),
+(94, '2018-09-20 14:56:26', '2018-09-20 14:56:26', 'много всего', 1),
+(95, '2018-09-20 15:00:42', '2018-09-20 15:00:42', 'много всего', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `reserves_dishes`
+--
+
+CREATE TABLE `reserves_dishes` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `reserves_id` int(10) UNSIGNED NOT NULL DEFAULT '1',
+  `dishes_id` int(10) UNSIGNED NOT NULL DEFAULT '1',
+  `title` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `alias` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `qty` int(10) UNSIGNED NOT NULL DEFAULT '1',
+  `amount` int(10) UNSIGNED NOT NULL,
+  `price` double(8,2) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Дамп данных таблицы `reserves_dishes`
+--
+
+INSERT INTO `reserves_dishes` (`id`, `reserves_id`, `dishes_id`, `title`, `alias`, `qty`, `amount`, `price`) VALUES
+(36, 88, 2, 'завтрак 2', 'zavtrak_2', 5, 130, 150.00),
+(37, 89, 2, 'завтрак 2', 'zavtrak_2', 5, 130, 150.00),
+(38, 90, 1, 'завтрак 1', 'zavtrak_1', 3, 130, 90.00),
+(39, 91, 2, 'завтрак 2', 'zavtrak_2', 2, 130, 60.00),
+(40, 92, 4, 'Дессерт_2', 'dessert_2', 8, 145, 1200.00),
+(41, 93, 2, 'завтрак 2', 'zavtrak_2', 4, 130, 120.00),
+(42, 93, 6, 'напиток_2', 'napitok_2', 5, 200, 275.00),
+(43, 94, 2, 'завтрак 2', 'zavtrak_2', 4, 130, 120.00),
+(44, 94, 5, 'напиток_1', 'napitok_1', 7, 200, 280.00),
+(45, 94, 6, 'напиток_2', 'napitok_2', 8, 200, 440.00),
+(46, 94, 8, 'первое блюдо 2', 'pervoye_bludo_2', 12, 230, 4200.00),
+(47, 95, 2, 'завтрак 2', 'zavtrak_2', 4, 130, 120.00),
+(48, 95, 5, 'напиток_1', 'napitok_1', 7, 200, 280.00),
+(49, 95, 6, 'напиток_2', 'napitok_2', 8, 200, 440.00),
+(50, 95, 8, 'первое блюдо 2', 'pervoye_bludo_2', 12, 230, 4200.00);
 
 -- --------------------------------------------------------
 
@@ -234,8 +270,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'ADMIN1', 'admin1@admin.com', '$2y$10$U17GB2aYL5qgh/gYt7G57.j9hccaOQkyrzWYmvofbEtXnc3eLI32G', 'yVDS8VXO9PMl5WLvD6VjJOOEUq0XRs4tvrAxW4K1pU3tEta4VDbrzgAJqp1X', '2018-08-04 10:06:08', '2018-09-13 14:30:51'),
-(7, 'user1', 'user1@user.com', '$2y$10$6qwYjtFb4AGAyYjxXOkOu.QLpbEUpovuuBJFoSqFOM/3IagQN3TIe', '5EKYzMvAdFYCiOrJfV42vqO2HWarh6055IvnknzSXvwgYJNDUA40gSLSUv3X', '2018-09-05 05:55:45', '2018-09-13 09:56:46');
+(1, 'ADMIN1', 'admin1@admin.com', '$2y$10$U17GB2aYL5qgh/gYt7G57.j9hccaOQkyrzWYmvofbEtXnc3eLI32G', 'T7kOcphx6z3hF804MuZ3rIkEH4f7vvyc34nFWeJYSRERIujbYrgezOMzrpQu', '2018-08-04 10:06:08', '2018-09-21 06:56:48'),
+(7, 'user1', 'user1@user.com', '$2y$10$6qwYjtFb4AGAyYjxXOkOu.QLpbEUpovuuBJFoSqFOM/3IagQN3TIe', 'PpgnvqxDYJTMzpzJ6HOlUnwhGGW7YSRQKejtbJMkuXsmHrxMWSsvYyIn9190', '2018-09-05 05:55:45', '2018-09-13 14:43:37');
 
 --
 -- Индексы сохранённых таблиц
@@ -266,8 +302,15 @@ ALTER TABLE `password_resets`
 -- Индексы таблицы `reserves`
 --
 ALTER TABLE `reserves`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Индексы таблицы `reserves_dishes`
+--
+ALTER TABLE `reserves_dishes`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `reserves_dishes_id_foreign` (`dishes_id`);
+  ADD KEY `reserves_dishes_reserves_id_foreign` (`reserves_id`),
+  ADD KEY `reserves_dishes_dishes_id_foreign` (`dishes_id`);
 
 --
 -- Индексы таблицы `roles`
@@ -310,7 +353,13 @@ ALTER TABLE `menus`
 -- AUTO_INCREMENT для таблицы `reserves`
 --
 ALTER TABLE `reserves`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=96;
+
+--
+-- AUTO_INCREMENT для таблицы `reserves_dishes`
+--
+ALTER TABLE `reserves_dishes`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
 
 --
 -- AUTO_INCREMENT для таблицы `roles`
@@ -341,10 +390,11 @@ ALTER TABLE `dishes`
   ADD CONSTRAINT `dishes_menu_id_foreign` FOREIGN KEY (`menu_id`) REFERENCES `menus` (`id`);
 
 --
--- Ограничения внешнего ключа таблицы `reserves`
+-- Ограничения внешнего ключа таблицы `reserves_dishes`
 --
-ALTER TABLE `reserves`
-  ADD CONSTRAINT `reserves_dishes_id_foreign` FOREIGN KEY (`dishes_id`) REFERENCES `dishes` (`id`);
+ALTER TABLE `reserves_dishes`
+  ADD CONSTRAINT `FK_reserves_dishes_dishes` FOREIGN KEY (`dishes_id`) REFERENCES `dishes` (`id`),
+  ADD CONSTRAINT `reserves_dishes_reserves_id_foreign` FOREIGN KEY (`reserves_id`) REFERENCES `reserves` (`id`);
 
 --
 -- Ограничения внешнего ключа таблицы `role_user`

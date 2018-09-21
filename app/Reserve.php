@@ -7,20 +7,18 @@ use Illuminate\Database\Eloquent\Model;
 class Reserve extends Model
 {
     //
-    protected $fillable = ['title','alias','price','qty','dishes_id', 'user_id', 'amount','note'];
+    protected $fillable = ['user_id', 'note'];
 
-    public function users()
+
+    public function user()
     {
         return $this->belongsTo('Rest\User');
     }
 
-    public function breakfasts()
+
+    public function dishes()
     {
-        return $this->hasMany('Rest\Breakfast');
+        return $this->belongsToMany('Rest\Dish', 'reserves_dishes', 'reserves_id', 'dishes_id')->withPivot('title', 'alias', 'qty', 'amount', 'price');
     }
 
-    public function dish()
-    {
-        return $this->belongsTo('Rest\Dish');
-    }
 }

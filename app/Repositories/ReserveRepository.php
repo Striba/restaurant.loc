@@ -2,9 +2,12 @@
 
 namespace Rest\Repositories;
 
+use Rest\Dish;
 use Rest\Reserve;
 use Illuminate\Http\Request;
 use Session;
+
+use DB;
 
 
 class ReserveRepository extends Repository
@@ -61,14 +64,22 @@ class ReserveRepository extends Repository
 
         $res = $this->model;
 
-        //dd($res);
 
         foreach ($data as $item){
-            $res = new Reserve;
-            $res->fill($item);
-            $res->save();
-        }
 
+            $res->fill($item);
+            $dish = Dish::find($item['dishes_id']);
+            //dd($dish);
+
+            $dish->reserves()->save($res, [
+                                            'title' => $item['title'],
+                                            'alias' => $item['alias'],
+                                            'amount'=> $item['amount'],
+                                            'price' => $item['price'],
+                                            'qty'   => $item['qty'],
+            ]);
+
+        }
 
         return ['status' => 'Ваш заказ принят'];
 
