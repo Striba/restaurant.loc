@@ -18,6 +18,10 @@ class ReserveController extends AdminController
         parent::__construct();
         $this->template = env('THEME').'.admin.index';
         $this->res_rep = $res_rep;
+
+        if(!$this->user){
+            abort(403);
+        }
     }
 
     /**
@@ -27,10 +31,7 @@ class ReserveController extends AdminController
      */
     public function index()
     {
-        //
-
         $data = $this->res_rep->get();
-        //dd($data);
 
         $content = view(env('THEME').'.admin.reserves')->with('data', $data)->render();
 
@@ -86,14 +87,10 @@ class ReserveController extends AdminController
     public function show($id)
     {
 
-        //dd("Поступивший айди: ".$id);
         $data = $this->res_rep->getById($id,'id');
         //dd($data);
 
         $reserves_dishes = $data->dishes()->where('reserves_id', $data->id)->get();
-
-
-        //dd($reserves_dishes);
 
         $content = view(env('THEME').'.admin.oneReserve')->with(['data' => $data,
                                                       'reserves_dishes' => $reserves_dishes
@@ -135,24 +132,11 @@ class ReserveController extends AdminController
      */
     public function destroy($id)
     {
-        //
-        //dd("Поступивший айди: ".$id);
         $data = $this->res_rep->getById($id,'id');
-
-//        foreach ($data->dishes as $dish){
-//
-//            $dish->reserves()->delete();
-//        }
-
-        //удаление пока не корректно работает
-        dd($data->dishes);
-
-        $data->dishes()->delete();
 
         $data->delete();
 
         return redirect()->route('admin.reserve.index');
-
     }
 
 

@@ -5,17 +5,16 @@ namespace Rest\Http\Controllers;
 use Illuminate\Http\Request;
 
 use Rest\Http\Requests;
+use Rest\Repositories\GroupRepository;
 use Rest\Menu;
-use Rest\Repositories\DishesRepository;
 
-class DishesController extends SiteController
+class GroupController extends SiteController
 {
-    public function __construct(DishesRepository $di_rep)
+    public function __construct(GroupRepository $gr_rep)
     {
         parent::__construct(new \Rest\Repositories\MenuRepository(new Menu()));
-
-        $this->template = env('THEME').'.dishes';
-        $this->di_rep = $di_rep;
+        $this->template = env('THEME').'.group';
+        $this->gr_rep = $gr_rep;
 
     }
 
@@ -24,18 +23,30 @@ class DishesController extends SiteController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($alias = false)
+    public function index()
     {
-        //
 
-        $dish = $this->di_rep->one($alias);
-        $this->title = $dish->title;
+        $this->title = 'Мои группы';
 
-        $single = view(env('THEME').'.eachDescription')->with('item', $dish)->render();
-        $this->vars = array_add($this->vars, 'single', $single);
+        //$groups = false;
+        $groups = true;
 
-        $this->template = env('THEME').'.detailedItem';
+        $content = view(env('THEME').'.mygroups')->with('groups', $groups)->render();
+        //$content = view(env('THEME').'.admin.mygroups')->render();
+        //dd($content);
 
+        $this->vars = array_add($this->vars, 'content', $content);
+
+        return $this->renderOutput();
+    }
+
+    public function add()
+    {
+        $this->title = 'Создать группу';
+
+        $content = view(env('THEME').'.addGroup')->render();
+
+        $this->vars = array_add($this->vars, 'content', $content);
 
         return $this->renderOutput();
 
@@ -49,6 +60,8 @@ class DishesController extends SiteController
     public function create()
     {
         //
+
+
     }
 
     /**
@@ -68,10 +81,9 @@ class DishesController extends SiteController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($alias)
+    public function show($id)
     {
         //
-        //dd($alias);
     }
 
     /**

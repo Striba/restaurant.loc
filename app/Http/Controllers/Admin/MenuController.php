@@ -17,6 +17,10 @@ class MenuController extends AdminController
         parent::__construct();
         $this->template = env('THEME').'.admin.index';
         $this->m_rep = $m_rep;
+
+        if(!$this->user){
+            abort(403);
+        }
     }
 
     public function index()

@@ -16,8 +16,7 @@
             @foreach($data as $id => $item)
                 @if($id != 'sum')
                     <tr>
-                         {{--<td>{{$item['name']}}</td>--}}
-                        <td>{{$item['title']}}</td>
+                         <td>{{$item['title']}}</td>
                          <td>{{$item['qty']}}</td>
                          <td>{{$item['amount']}}</td>
                          <td>{{$item['price']}}</td>
@@ -27,10 +26,6 @@
                 @endif
             @endforeach
 
-                {{--<tr>--}}
-                    {{--<td>На сумму:</td>--}}
-                    {{--<td colspan="4" class="text-right reserve-sum">{{session('reserve.sum')}}</td>--}}
-                {{--</tr>--}}
             </tbody>
         </table>
     </div>

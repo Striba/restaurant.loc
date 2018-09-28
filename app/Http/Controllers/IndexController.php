@@ -30,21 +30,6 @@ class IndexController extends SiteController
         $menusItems = $this->getMenusItems();
         //dd($menusItems);
 
-        if (Auth()->check()) {
-            //access:
-            $flag = false;
-
-            $user_id = Auth()->user()->id;
-            $user = User::find($user_id);
-            foreach ($user->roles as $role) {
-                $role = $role->name;
-                $flag = ($role == 'Admin') ? true : false;
-            }
-
-            $this->vars = array_add($this->vars, 'flag', $flag);
-        }
-
-        //Сформируем переменную содержащую вид меню с переданными данными из таблицы и все это в виде строки.
         $menus = view(env('THEME').'.menus')->with('menusItems',$menusItems)->render();
 
         //Передаем переменную  меню в массив переменных:
@@ -82,29 +67,12 @@ class IndexController extends SiteController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-//    public function show($alias)
-//    {
+
     public function show($id)
     {
 
         $alias = $this->di_rep->getById($id, 'id')->menu->alias;
 
-        if (Auth()->check()) {
-            //access:
-            $flag = false;
-
-            $user_id = Auth()->user()->id;
-            $user = User::find($user_id);
-            foreach ($user->roles as $role) {
-                $role = $role->name;
-                $flag = ($role == 'Admin') ? true : false;
-            }
-
-            $this->vars = array_add($this->vars, 'flag', $flag);
-        }
-
-
-        //$this->template = env('THEME').'.'.$alias;
         $this->template = env('THEME').'.dishes';
 
         $singleMenu = $this->m_rep->getById($id, 'id')->dishes;

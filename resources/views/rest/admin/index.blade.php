@@ -2,4 +2,4 @@
 
 @section('content')
     {!! $content !!}
-@endsection@
+@endsection

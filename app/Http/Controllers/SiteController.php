@@ -7,34 +7,42 @@ use Illuminate\Http\Request;
 use Rest\Http\Requests;
 
 use Rest\Repositories\MenuRepository;
+use Rest\User;
 
 class SiteController extends Controller
 {
-    //Свойство для хранения объекта класса dishes репозиторий
     protected $di_rep;
 
-    //Свойство для хранения объекта класса Breakfast репозиторий
-    protected $br_rep;
-
-    //Свойство для хранения объекта класса Reserve репозиторий
     protected $res_rep;
 
-    //Свойство для хранения объекта класса menus репозиторий
     protected $m_rep;
 
-    //Свойство для хранения заголвка страницы
+    protected $gr_rep;
+
     protected $title;
 
-    //Свойство для хранения имени шаблона для отображения инфомрации на конктретной странице
     protected $template;
 
-    //Массив передаваемых переменных в шаблон($template)
     protected $vars = array();
 
 
     public function __construct(MenuRepository $m_rep)
     {
         $this->m_rep = $m_rep;
+
+        if (Auth()->check()) {
+            //access:
+            $flag = false;
+
+            $user_id = Auth()->user()->id;
+            $user = User::find($user_id);
+            foreach ($user->roles as $role) {
+                $role = $role->name;
+                $flag = ($role == 'Admin') ? true : false;
+            }
+
+            $this->vars = array_add($this->vars, 'flag', $flag);
+        }
     }
 
     //Метод формирования представления
@@ -42,12 +50,6 @@ class SiteController extends Controller
 
 
         $this->vars = array_add($this->vars, 'title', $this->title);
-
-        //Помещаем в переменную содержание шаблона навигационного меню, преобразовывая содержимое в строку(render):
-        $navigation = view(env('THEME').'.navigation')->render();
-
-        //Передаем переменную содержащую код представления меню навигации в массив переменных:
-        $this->vars = array_add($this->vars, 'navigation', $navigation);
 
         return view($this->template)->with($this->vars);
     }

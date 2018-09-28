@@ -9,10 +9,6 @@ use Rest\Http\Controllers\Controller;
 use Rest\Repositories\ReserveRepository;
 use Rest\Repositories\MenuRepository;
 
-use Rest\Reserve;
-use Rest\User;
-use Rest\Dish;
-
 
 class IndexController extends AdminController
 {
@@ -23,16 +19,19 @@ class IndexController extends AdminController
        $this->template = env('THEME').'.admin.index';
        $this->res_rep = $res_rep;
        $this->m_rep = $m_rep;
+
+        if(!$this->user){
+            abort(403);
+        }
+
     }
 
     public function index($id)
     {
 
-        //dd('Ваш айди: ' . $id);
         $reserve = $this->res_rep->get();
         $menu = $this->m_rep->get();
-        //dd($menu);
-        //dd(count($menu));
+
         $countReserves = count($reserve);
         $countMenus = count($menu);
 

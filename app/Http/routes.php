@@ -32,6 +32,17 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function (){
 
 });
 
+Route::group(['prefix' => 'user', 'middleware' => 'auth'], function (){
+
+    Route::resource('/groups', 'GroupController');
+
+    Route::group(['prfix'=>'groups'], function (){
+
+        Route::get('add', ['uses' => 'GroupController@add', 'as' => 'groupAdd']);
+    });
+
+});
+
 Route::get('dishes/{alias}', ['as' => 'dishes.index', 'uses' => 'DishesController@index']);
 
 Route::resource('dishes', 'DishesController', ['except' => ['index']]);

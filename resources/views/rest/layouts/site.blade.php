@@ -12,28 +12,9 @@
 
     <link rel="stylesheet" href="{{asset(env('THEME'))}}/css/stuck.css" />
     <link rel="stylesheet" href="{{asset(env('THEME'))}}/css/style.css" />
+    {{--<link rel="stylesheet" href="{{asset(env('THEME'))}}/css/form.css" />--}}
     <link rel="stylesheet" href="{{asset(env('THEME'))}}/css/touchTouch.css" />
-    {{--<script src="{{asset(env('THEME'))}}/js/jquery.js"></script>--}}
-    {{--<script src="{{asset(env('THEME'))}}/js/jquery-migrate-1.1.1.js"></script>--}}
-    {{--<script src="{{asset(env('THEME'))}}/js/script.js"></script>--}}
-    {{--<script src="{{asset(env('THEME'))}}/js/superfish.js"></script>--}}
-    {{--<script src="{{asset(env('THEME'))}}/js/jquery.equalheights.js"></script>--}}
-    {{--<script src="{{asset(env('THEME'))}}/js/jquery.mobilemenu.js"></script>--}}
-    {{--<script src="{{asset(env('THEME'))}}/js/jquery.easing.1.3.js"></script>--}}
-    {{--<script src="{{asset(env('THEME'))}}/js/tmStickUp.js"></script>--}}
-    {{--<script src="{{asset(env('THEME'))}}/js/jquery.ui.totop.js"></script>--}}
-    {{--<script src="{{asset(env('THEME'))}}/js/touchTouch.jquery.js"></script>--}}
-    {{--<script src="{{asset(env('THEME'))}}/js/myscript.js"></script>--}}
 
-    {{--<script>--}}
-        {{--$(document).ready(function(){--}}
-
-            {{--$().UItoTop({ easingType: 'easeOutQuart' });--}}
-            {{--$('#stuck_container').tmStickUp({});--}}
-            {{--$('.gallery .gall_item').touchTouch();--}}
-
-        {{--});--}}
-    {{--</script>--}}
 
 
     <!--[if lt IE 9]>
@@ -70,19 +51,18 @@
 
                         <nav>
                             <ul class="sf-menu">
+                                <li><a href="/">Главная</a></li>
                                 @if(Auth::check())
                                     <li><a href="{{ $flag ? route('adminIndex', ['id' => Auth::user()->id]) : '#' }}"> Добро пожаловать {{ Auth::user()->name }}</a></li>
 
                                     <li><a href="{{ route('reserve.index') }}" onclick="getReserve(); return false;">Карта заказов</a></li>
+                                    <li><a href="{{ route('user.groups.index') }}">Мои группы</a></li>
                                     <li><a href="{{url('/logout')}}">Выйти из кабинета</a></li>
 
                                 @else
-                                    <li><a href="{{ url('/login') }}">Войти на кабинет</a></li>
+                                    <li><a href="{{ url('/login') }}">Войти в кабинет</a></li>
                                 @endif
-                                <li><a href="/">home</a></li>
-                                <li class="current"><a href="#">menu</a></li>
-                                {{--<li><a href="#">reservation</a></li>--}}
-                                {{--<li><a href="#">contacts</a></li>--}}
+
                             </ul>
                         </nav>
                         <div class="clear"></div>
@@ -171,6 +151,30 @@
 
 <script src="{{asset(env('THEME'))}}/js/jquery-1.11.0.min.js"></script>
 <script src="{{asset(env('THEME'))}}/js/bootstrap.min.js"></script>
+
+
+{{--<script src="{{asset(env('THEME'))}}/js/jquery.js"></script>--}}
+
+<script src="{{asset(env('THEME'))}}/js/jquery-migrate-1.1.1.js"></script>
+<script src="{{asset(env('THEME'))}}/js/script.js"></script>
+<script src="{{asset(env('THEME'))}}/js/superfish.js"></script>
+<script src="{{asset(env('THEME'))}}/js/jquery.equalheights.js"></script>
+<script src="{{asset(env('THEME'))}}/js/jquery.mobilemenu.js"></script>
+<script src="{{asset(env('THEME'))}}/js/jquery.easing.1.3.js"></script>
+<script src="{{asset(env('THEME'))}}/js/tmStickUp.js"></script>
+<script src="{{asset(env('THEME'))}}/js/jquery.ui.totop.js"></script>
+<script src="{{asset(env('THEME'))}}/js/touchTouch.jquery.js"></script>
+
+
+<script>
+$(document).ready(function(){
+
+$().UItoTop({ easingType: 'easeOutQuart' });
+$('#stuck_container').tmStickUp({});
+$('.gallery .gall_item').touchTouch();
+
+});
+</script>
 
 <script src="{{asset(env('THEME'))}}/js/myscript.js"></script>
 

@@ -39,15 +39,6 @@
                                 </tr>
 
                             @endforeach
-
-                            {{--<tr>--}}
-                                {{--<td>Итого:</td>--}}
-                                {{--<td colspan="4" class="text-right reserve-qty">{{ session('qty') }}</td>--}}
-                            {{--</tr>--}}
-                            {{--<tr>--}}
-                                {{--<td>На сумму:</td>--}}
-                                {{--<td colspan="4" class="text-right reserve-sum">{{ session('reserve.sum') }}</td>--}}
-                            {{--</tr>--}}
                             </tbody>
                         </table>
                     </div>

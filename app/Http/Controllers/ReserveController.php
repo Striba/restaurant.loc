@@ -52,8 +52,6 @@ class ReserveController extends SiteController
         $id = $request->input('id');
         $qty = $request->input('qty');
 
-//        echo 'айди номер:'.$id.'<br>';
-//        echo 'кол-во:'.$qty.'<br>';
         //dd($qty);
         //dd($request);
         if ($id){
@@ -62,8 +60,6 @@ class ReserveController extends SiteController
             $dish = $res;
             if (\Auth::check()){
                 $user_id = auth()->user()->id;
-                //dd('user_id is: '.$user_id);
-
                 $dish->user_id = $user_id;
             }
             $dish->dishes_id= $dish->id;
@@ -78,9 +74,6 @@ class ReserveController extends SiteController
         //dd($dish);
 
         $this->res_rep->addDishToReserve($request, $dish, $qty);
-
-//        Session::forget('reserve.2');
-//        Session::forget('reserve.1');
         $data = session('reserve');
         //dd(session('reserve'));
         //dump(session('reserve'));
@@ -186,9 +179,6 @@ class ReserveController extends SiteController
         //dd($request);
         $session = $request->session()->get('reserve');
         //dd($session);
-
-
-
         if(!empty($request->except('_token'))){
             //echo 'Ваше сообщение: '.$request->input('note');
 
